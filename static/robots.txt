@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://quadratmeterberechnen.github.io/sitemap.xml

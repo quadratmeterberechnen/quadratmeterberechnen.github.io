@@ -1,0 +1,64 @@
+baseURL = "https://quadratmeterberechnen.github.io/"
+title = "Quadratmeter berechnen"
+languageCode = "de-DE"
+defaultContentLanguage = "de"
+disableKinds = ["taxonomy", "term", "RSS"]
+enableRobotsTXT = false
+enableGitInfo = false
+
+[params]
+  homeTitle = "Quadratmeter berechnen – Kostenloser Flächenrechner"
+  description = "Quadratmeter berechnen leicht gemacht: Kostenloser Rechner für Rechteck, Dreieck, Kreis und Trapez mit Formeln, Beispielen und Umrechnung in m², cm², ha."
+  ogImage = "/img/og-default.png"
+
+[markup.goldmark.renderer]
+  unsafe = false
+
+[minify]
+  minifyOutput = true
+
+[sitemap]
+  changefreq = "monthly"
+  priority = 0.5
+
+[[menus.main]]
+  name = "Rechner"
+  url = "/"
+  weight = 10
+[[menus.main]]
+  name = "Glossar"
+  url = "/glossar/"
+  weight = 20
+[[menus.main]]
+  name = "Über uns"
+  url = "/ueber-uns/"
+  weight = 30
+[[menus.main]]
+  name = "Kontakt"
+  url = "/kontakt/"
+  weight = 40
+
+[[menus.footer]]
+  name = "Glossar"
+  url = "/glossar/"
+  weight = 10
+[[menus.footer]]
+  name = "Über uns"
+  url = "/ueber-uns/"
+  weight = 20
+[[menus.footer]]
+  name = "Kontakt"
+  url = "/kontakt/"
+  weight = 30
+[[menus.footer]]
+  name = "Impressum"
+  url = "/impressum/"
+  weight = 40
+[[menus.footer]]
+  name = "Datenschutz"
+  url = "/datenschutz/"
+  weight = 50
+[[menus.footer]]
+  name = "Nutzungsbedingungen"
+  url = "/nutzungsbedingungen/"
+  weight = 60

@@ -1,0 +1,13 @@
+{{ define "main" }}
+{{ partial "breadcrumb.html" . }}
+<h1>{{ .Params.h1 | default .Title }}</h1>
+<div class="prose">{{ .Content }}</div>
+<ul class="cards">
+{{ range .Pages.ByTitle }}
+  <li>
+    <a href="{{ .RelPermalink }}"><strong>{{ .Title }}</strong></a>
+    <p>{{ .Params.shortAnswer | truncate 120 }}</p>
+  </li>
+{{ end }}
+</ul>
+{{ end }}

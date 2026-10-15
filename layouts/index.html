@@ -1,0 +1,11 @@
+{{ define "main" }}
+<h1>{{ .Params.h1 | default .Title }}</h1>
+<p class="lead">{{ .Params.lead }}</p>
+{{ partial "calculator.html" . }}
+<article class="prose">{{ .Content }}</article>
+{{ partial "author-box.html" . }}
+{{ end }}
+{{ define "scripts" }}
+{{ $c := resources.Get "js/calculator.js" | resources.Minify | resources.Fingerprint }}
+<script src="{{ $c.RelPermalink }}" defer></script>
+{{ end }}

@@ -1,0 +1,52 @@
+{{ $home := site.Home.Permalink }}
+{{ $a := site.Data.author }}
+{{ $desc := .Params.description | default site.Params.description }}
+{{ $personRef := dict "@id" (printf "%s#author" $home) }}
+{{ $siteRef := dict "@id" (printf "%s#website" $home) }}
+{{ $graph := slice }}
+
+{{ $graph = $graph | append (dict "@type" "WebSite" "@id" (printf "%s#website" $home) "url" $home "name" site.Title "inLanguage" "de-DE" "publisher" $personRef) }}
+
+{{ $person := dict "@type" "Person" "@id" (printf "%s#author" $home) "name" $a.name "jobTitle" $a.jobTitle "url" (absURL "ueber-uns/") "knowsAbout" $a.knowsAbout }}
+{{ if $a.sameAs }}{{ $person = merge $person (dict "sameAs" $a.sameAs) }}{{ end }}
+{{ if $a.email }}{{ $person = merge $person (dict "email" $a.email) }}{{ end }}
+{{ $graph = $graph | append $person }}
+
+{{ $pageType := .Params.schemaType | default "WebPage" }}
+{{ if eq .Section "glossar" }}{{ if .IsNode }}{{ $pageType = "CollectionPage" }}{{ end }}{{ end }}
+{{ $wp := dict "@type" $pageType "@id" (printf "%s#webpage" .Permalink) "url" .Permalink "name" .Title "description" $desc "inLanguage" "de-DE" "isPartOf" $siteRef "dateModified" (.Lastmod.Format "2006-01-02") }}
+{{ if not .IsHome }}{{ $wp = merge $wp (dict "breadcrumb" (dict "@id" (printf "%s#breadcrumb" .Permalink))) }}{{ end }}
+{{ $graph = $graph | append $wp }}
+
+{{ if not .IsHome }}
+  {{ $crumbs := partial "crumbs.html" . }}
+  {{ $items := slice }}
+  {{ range $i, $p := $crumbs }}
+    {{ $n := cond $p.IsHome "Start" $p.LinkTitle }}
+    {{ $items = $items | append (dict "@type" "ListItem" "position" (add $i 1) "name" $n "item" $p.Permalink) }}
+  {{ end }}
+  {{ $graph = $graph | append (dict "@type" "BreadcrumbList" "@id" (printf "%s#breadcrumb" .Permalink) "itemListElement" $items) }}
+{{ end }}
+
+{{ if .IsHome }}
+  {{ $graph = $graph | append (dict "@type" "WebApplication" "name" "Quadratmeter-Rechner" "url" $home "applicationCategory" "UtilitiesApplication" "operatingSystem" "Any" "browserRequirements" "JavaScript" "inLanguage" "de-DE" "offers" (dict "@type" "Offer" "price" "0" "priceCurrency" "EUR") "author" $personRef) }}
+{{ end }}
+
+{{ if and (eq .Section "glossar") .IsPage }}
+  {{ $art := dict "@type" "Article" "headline" (.Params.h1 | default .Title) "description" $desc "inLanguage" "de-DE" "dateModified" (.Lastmod.Format "2006-01-02") "author" $personRef "publisher" $personRef "mainEntityOfPage" (dict "@id" (printf "%s#webpage" .Permalink)) }}
+  {{ if not .Date.IsZero }}{{ $art = merge $art (dict "datePublished" (.Date.Format "2006-01-02")) }}{{ end }}
+  {{ if .Params.source }}{{ $art = merge $art (dict "citation" .Params.source) }}{{ end }}
+  {{ $graph = $graph | append $art }}
+  {{ $term := dict "@type" "DefinedTerm" "name" .Title "description" .Params.shortAnswer "url" .Permalink "inDefinedTermSet" (absURL "glossar/") }}
+  {{ $graph = $graph | append $term }}
+{{ end }}
+
+{{ if and (eq .Section "glossar") .IsNode }}
+  {{ $li := slice }}
+  {{ range $i, $p := .Pages.ByTitle }}
+    {{ $li = $li | append (dict "@type" "ListItem" "position" (add $i 1) "url" $p.Permalink "name" $p.Title) }}
+  {{ end }}
+  {{ $graph = $graph | append (dict "@type" "ItemList" "itemListElement" $li) }}
+{{ end }}
+
+<script type="application/ld+json">{{ dict "@context" "https://schema.org" "@graph" $graph | jsonify | safeHTML }}</script>

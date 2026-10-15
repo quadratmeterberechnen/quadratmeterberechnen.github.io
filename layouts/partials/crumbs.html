@@ -1,0 +1,4 @@
+{{ $crumbs := slice }}
+{{ range .Ancestors.Reverse }}{{ $crumbs = $crumbs | append . }}{{ end }}
+{{ $crumbs = $crumbs | append . }}
+{{ return $crumbs }}

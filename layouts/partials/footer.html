@@ -1,0 +1,10 @@
+<footer class="site-footer">
+  <div class="container">
+    <nav aria-label="Footer">
+      <ul>
+        {{ range site.Menus.footer }}<li><a href="{{ .URL }}">{{ .Name }}</a></li>{{ end }}
+      </ul>
+    </nav>
+    <p>© {{ now.Year }} {{ site.Title }}. Alle Angaben ohne Gewähr.</p>
+  </div>
+</footer>

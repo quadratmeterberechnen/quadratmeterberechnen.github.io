@@ -1,0 +1,55 @@
+<section class="calc" id="rechner" aria-labelledby="calc-title">
+  <h2 id="calc-title" class="sr-only">Quadratmeter-Rechner</h2>
+  <form id="calc" novalidate>
+    <div class="row">
+      <label>Form
+        <select id="shape">
+          <option value="rect">Rechteck / Quadrat</option>
+          <option value="tri">Dreieck</option>
+          <option value="circ">Kreis</option>
+          <option value="trap">Trapez</option>
+        </select>
+      </label>
+      <label>Einheit
+        <select id="unit">
+          <option value="m">Meter (m)</option>
+          <option value="cm">Zentimeter (cm)</option>
+          <option value="mm">Millimeter (mm)</option>
+          <option value="ft">Fuß (ft)</option>
+        </select>
+      </label>
+    </div>
+    <div class="row" data-shape="rect">
+      <label>Länge<input type="text" inputmode="decimal" autocomplete="off" data-k="l" placeholder="4"></label>
+      <label>Breite<input type="text" inputmode="decimal" autocomplete="off" data-k="b" placeholder="3,5"></label>
+    </div>
+    <div class="row" data-shape="tri">
+      <label>Grundseite<input type="text" inputmode="decimal" autocomplete="off" data-k="g" placeholder="6"></label>
+      <label>Höhe<input type="text" inputmode="decimal" autocomplete="off" data-k="h" placeholder="4"></label>
+    </div>
+    <div class="row" data-shape="circ">
+      <label>Radius<input type="text" inputmode="decimal" autocomplete="off" data-k="r" placeholder="2"></label>
+    </div>
+    <div class="row" data-shape="trap">
+      <label>Seite a<input type="text" inputmode="decimal" autocomplete="off" data-k="a" placeholder="5"></label>
+      <label>Seite c<input type="text" inputmode="decimal" autocomplete="off" data-k="c" placeholder="3"></label>
+      <label>Höhe<input type="text" inputmode="decimal" autocomplete="off" data-k="h" placeholder="2"></label>
+    </div>
+    <output class="result" aria-live="polite">
+      <span class="big"><span id="r-m2">0</span> m²</span>
+      <dl class="conv">
+        <div><dt>cm²</dt><dd id="r-cm2">0</dd></div>
+        <div><dt>Hektar</dt><dd id="r-ha">0</dd></div>
+        <div><dt>ft²</dt><dd id="r-ft2">0</dd></div>
+      </dl>
+    </output>
+    <div class="actions">
+      <button type="button" id="add">Zur Summe hinzufügen</button>
+      <button type="button" id="reset" class="ghost">Zurücksetzen</button>
+    </div>
+    <div id="sum-wrap" hidden>
+      <ul id="sum"></ul>
+      <p class="total">Gesamt: <strong id="total">0</strong> m²</p>
+    </div>
+  </form>
+</section>

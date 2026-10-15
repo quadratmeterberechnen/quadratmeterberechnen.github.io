@@ -1,0 +1,20 @@
+{{ define "main" }}
+{{ partial "breadcrumb.html" . }}
+<h1>{{ .Params.h1 | default .Title }}</h1>
+{{ with .Params.shortAnswer }}
+<div class="answer"><strong>Kurzantwort</strong><p>{{ . }}</p></div>
+{{ end }}
+<article class="prose">{{ .Content }}</article>
+{{ with .Params.related }}
+<section class="related">
+  <h2>Verwandte Begriffe</h2>
+  <ul>
+  {{ range . }}{{ with site.GetPage (printf "/glossar/%s" .) }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}{{ end }}
+  </ul>
+</section>
+{{ end }}
+<p class="cta"><a href="{{ site.Home.RelPermalink }}">Jetzt Quadratmeter berechnen</a></p>
+{{ with .Params.source }}<p class="source">Quelle: <a href="{{ . }}" rel="noopener" target="_blank">{{ $.Params.sourceName | default . }}</a></p>{{ end }}
+{{ partial "author-box.html" . }}
+<p class="updated">Zuletzt aktualisiert: <time datetime="{{ .Lastmod.Format "2006-01-02" }}">{{ .Lastmod.Format "02.01.2006" }}</time></p>
+{{ end }}

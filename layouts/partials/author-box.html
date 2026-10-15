@@ -1,0 +1,8 @@
+{{ $a := site.Data.author }}
+<aside class="author" aria-label="Über den Autor">
+  {{ if $a.image }}<img src="{{ $a.image }}" alt="{{ $a.name }}" width="56" height="56" loading="lazy">{{ else }}<span class="avatar" aria-hidden="true">{{ substr $a.name 0 1 }}</span>{{ end }}
+  <div>
+    <p><strong>Geschrieben von <a href="/ueber-uns/">{{ $a.name }}</a></strong>, {{ $a.jobTitle }}</p>
+    <p>{{ $a.bioShort }}</p>
+  </div>
+</aside>
