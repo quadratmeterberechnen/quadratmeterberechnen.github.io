@@ -14,7 +14,9 @@
 
 {{ $pageType := .Params.schemaType | default "WebPage" }}
 {{ if eq .Section "glossar" }}{{ if .IsNode }}{{ $pageType = "CollectionPage" }}{{ end }}{{ end }}
-{{ $wp := dict "@type" $pageType "@id" (printf "%s#webpage" .Permalink) "url" .Permalink "name" .Title "description" $desc "inLanguage" "de-DE" "isPartOf" $siteRef "dateModified" (.Lastmod.Format "2006-01-02") }}
+{{ $wp := dict "@type" $pageType "@id" (printf "%s#webpage" .Permalink) "url" .Permalink "name" .Title "description" $desc "inLanguage" "de-DE" "isPartOf" $siteRef }}
+{{ if not .Lastmod.IsZero }}{{ $wp = merge $wp (dict "dateModified" (.Lastmod.Format "2006-01-02")) }}{{ end }}
+
 {{ if not .IsHome }}{{ $wp = merge $wp (dict "breadcrumb" (dict "@id" (printf "%s#breadcrumb" .Permalink))) }}{{ end }}
 {{ $graph = $graph | append $wp }}
 
@@ -49,4 +51,5 @@
   {{ $graph = $graph | append (dict "@type" "ItemList" "itemListElement" $li) }}
 {{ end }}
 
-<script type="application/ld+json">{{ dict "@context" "https://schema.org" "@graph" $graph | jsonify | safeHTML }}</script>
+<script type="application/ld+json">{{ dict "@context" "https://schema.org" "@graph" $graph | jsonify | safeJS }}</script>
+

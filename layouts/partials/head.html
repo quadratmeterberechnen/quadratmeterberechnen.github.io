@@ -20,4 +20,5 @@
 <script>document.documentElement.classList.add('js')</script>
 {{ $css := resources.Get "css/main.css" | resources.Minify }}
 <style>{{ $css.Content | safeCSS }}</style>
-{{ partial "schema.html" . }}
+{{ if ne .Kind "404" }}{{ partial "schema.html" . }}{{ end }}
+
